@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import be.school.quizzapplication.activity.LoginActivity
+import be.school.quizzapplication.activity.MyQuizzRecyclerViewAdapter
 import be.school.quizzapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity() {
     private fun setUpListeners() {
         binding.buttonLogin.setOnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+        binding.buttonListGestionQuizz.setOnClickListener{
+            val intent = Intent(this, MyQuizzRecyclerViewAdapter::class.java)
             startActivity(intent)
         }
         binding.buttonLogout.setOnClickListener {
