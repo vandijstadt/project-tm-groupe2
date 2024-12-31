@@ -29,7 +29,9 @@ class QuizzRecyclerViewAdapter(
         val item = values[position]
         holder.quizzId.text = item.id.toString()
         holder.quizzTitle.text = item.title
-        holder.quizzTheme.text = item.themeFirstLetter.toString()
+        holder.quizzTheme.text = item.theme.title.replaceFirstChar {
+            it.uppercase()
+        }.first().toString()
     }
 
     override fun getItemCount(): Int = values.size

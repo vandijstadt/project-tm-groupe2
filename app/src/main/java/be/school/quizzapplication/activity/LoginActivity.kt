@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import be.school.quizzapplication.MainActivity
 import be.school.quizzapplication.databinding.ActivityLoginBinding
+import be.school.quizzapplication.fragments.QuizzManagerFragment
 import com.school.tmproject.DTO.login.UserLoginCommand
 import com.school.tmproject.DTO.login.UserLoginResponse
 import com.school.tmproject.placeholder.RetrofitFactory
@@ -70,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
 
     private val apiService = RetrofitFactory.instance.create(ILoginRepository::class.java)
     private fun performLogin(user: UserLoginCommand) {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, QuizzManagerActivity::class.java)
         lifecycleScope.launch {
             try {
                 val response: retrofit2.Response<UserLoginResponse> = apiService.login(user)
