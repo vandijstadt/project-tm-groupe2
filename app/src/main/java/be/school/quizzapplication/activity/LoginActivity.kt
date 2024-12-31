@@ -3,18 +3,14 @@ package be.school.quizzapplication.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import be.school.quizzapplication.MainActivity
-import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.ActivityLoginBinding
 import com.school.tmproject.DTO.login.UserLoginCommand
 import com.school.tmproject.DTO.login.UserLoginResponse
 import com.school.tmproject.placeholder.RetrofitFactory
-import com.school.tmproject.repository.IQuizRepository
+import com.school.tmproject.repository.ILoginRepository
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -72,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private val apiService = RetrofitFactory.instance.create(IQuizRepository::class.java)
+    private val apiService = RetrofitFactory.instance.create(ILoginRepository::class.java)
     private fun performLogin(user: UserLoginCommand) {
         val intent = Intent(this, MainActivity::class.java)
         lifecycleScope.launch {
