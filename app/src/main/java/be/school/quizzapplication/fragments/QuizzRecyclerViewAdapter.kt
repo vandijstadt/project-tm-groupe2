@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -16,7 +15,6 @@ import be.school.quizzapplication.activity.PlayQuizzActivity
 
 import be.school.quizzapplication.fragments.placeholder.PlaceholderContent.PlaceholderItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.FragmentQuizzListItemBinding

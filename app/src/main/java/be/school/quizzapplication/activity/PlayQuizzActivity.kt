@@ -9,11 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import be.school.quizzapplication.DTO.question.QuestionResponse
+import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.MainActivity
 import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.ActivityPlayQuizzBinding
-import be.school.quizzapplication.dto.question.QuestionResponse
-import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.repository.IQuizzRepository
 import com.school.tmproject.placeholder.RetrofitFactory
 import kotlinx.coroutines.launch
