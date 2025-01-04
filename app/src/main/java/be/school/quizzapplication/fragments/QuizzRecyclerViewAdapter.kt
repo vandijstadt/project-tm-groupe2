@@ -1,6 +1,7 @@
 package be.school.quizzapplication.fragments
 
 import android.content.Intent
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -36,7 +37,8 @@ class QuizzRecyclerViewAdapter(
         holder.quizzTheme.text = item.theme.title.replaceFirstChar {
             it.uppercase()
         }.first().toString()
-        holder.item.setOnClickListener {
+        holder.itemView.setOnClickListener {
+            Log.i("Mickaël","Item ${item.id} clicked")
             val context = holder.itemView.context
             val intent = Intent(context, PlayQuizzActivity::class.java)
             intent.putExtra("QUIZZ_ID", item.id)
@@ -51,7 +53,6 @@ class QuizzRecyclerViewAdapter(
         val quizzId: TextView = binding.tvQuizzItemFragmentId
         val quizzTitle: TextView = binding.tvQuizzItemFragmentTitle
         val quizzTheme: TextView = binding.tvQuizzItemFragmentTheme
-        val item: ConstraintLayout = binding.linearLayoutQuizzListFragmentItem
     }
 
 }
