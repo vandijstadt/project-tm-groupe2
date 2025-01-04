@@ -1,4 +1,4 @@
-package com.school.tmproject.DTO.login
+package be.school.quizzapplication.DTO.login
 
 data class UserLoginResponse(
     val id:Int,
