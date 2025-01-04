@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
-import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.FragmentGestionBinding
 import be.school.quizzapplication.repository.IQuizzRepository
 import com.school.tmproject.placeholder.RetrofitFactory
 import kotlinx.coroutines.launch
+import okhttp3.Response
 import java.net.CookieHandler
 import java.net.CookieManager
 
@@ -104,8 +104,8 @@ class GestionFragment : Fragment() {
     private fun performDelete(quizzId: Int) {
         lifecycleScope.launch {
             try {
-                val response: Boolean = apiService.delete(quizzId)
-                if (response) {
+                val response = apiService.delete(quizzId)
+                if (response.isSuccessful && response.code() == 204) {
                     Log.d("Nicolas delete", "Delete successful")
                     // TODO : messages
                     Toast.makeText(context, "Successful removal", Toast.LENGTH_LONG)

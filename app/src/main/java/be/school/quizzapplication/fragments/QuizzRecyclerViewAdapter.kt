@@ -8,14 +8,11 @@ import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import be.school.quizzapplication.activity.PlayQuizzActivity
 
-import be.school.quizzapplication.fragments.placeholder.PlaceholderContent.PlaceholderItem
 import androidx.appcompat.app.AppCompatActivity
-import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.FragmentQuizzListItemBinding
 

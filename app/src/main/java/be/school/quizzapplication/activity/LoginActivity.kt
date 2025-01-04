@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import be.school.quizzapplication.databinding.ActivityLoginBinding
 import com.school.tmproject.DTO.login.UserLoginCommand
-import be.school.quizzapplication.DTO.login.UserLoginResponse
+import be.school.quizzapplication.dto.login.UserLoginResponse
 import com.school.tmproject.placeholder.RetrofitFactory
 import com.school.tmproject.repository.ILoginRepository
 import kotlinx.coroutines.launch
+import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
 import java.net.CookieHandler
 import java.net.CookieManager
 
@@ -84,6 +86,8 @@ class LoginActivity : AppCompatActivity() {
                         responseBody.role
                     )
                     login(userLoginResponse)
+                    val headers = response.headers()
+                    Log.d("Headers", headers.toString())
                     Log.d("Nicolas Login", "Login successful: $responseBody")
                     setUpToken()
                     startActivity(intent)
@@ -98,15 +102,26 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setUpToken() {
-        val cookieManager = CookieManager()
-        CookieHandler.setDefault(cookieManager)
+        Log.i("Mickaël","Setting up token")
+        val cookies = RetrofitFactory.getCookies()
 
-        val cookies = cookieManager.cookieStore.cookies
         for(cookie in cookies){
-            if(cookie.name == "token"){
-                val token = cookie.value
+            val cookieString = cookie.toString()
+            val token = parseTokenFromCookie(cookieString)
+            if(token != null){
+                Log.i("Mickaël",token)
                 RetrofitFactory.addTokenToClient(token)
+                break
             }
+        }
+    }
+    private fun parseTokenFromCookie(cookieString: String): String?{
+        val parts = cookieString.split(";").firstOrNull()
+        val keyValue = parts?.split("=")
+        return if(keyValue != null && keyValue.size == 2 && keyValue[0] == "jwt_token"){
+            keyValue[1]
+        } else {
+            null
         }
     }
 }
