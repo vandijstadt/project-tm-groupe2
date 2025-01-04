@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import be.school.quizzapplication.activity.LoginActivity
 import be.school.quizzapplication.activity.MyQuizzRecyclerViewAdapter
+import be.school.quizzapplication.activity.QuizzManagerActivity
 import be.school.quizzapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.buttonListGestionQuizz.setOnClickListener{
-            val intent = Intent(this, MyQuizzRecyclerViewAdapter::class.java)
+            val intent = Intent(this, QuizzManagerActivity::class.java)
             startActivity(intent)
         }
         binding.buttonLogout.setOnClickListener {
