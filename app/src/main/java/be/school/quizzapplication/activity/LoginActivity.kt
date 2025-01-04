@@ -11,6 +11,8 @@ import be.school.quizzapplication.DTO.login.UserLoginResponse
 import com.school.tmproject.placeholder.RetrofitFactory
 import com.school.tmproject.repository.ILoginRepository
 import kotlinx.coroutines.launch
+import java.net.CookieHandler
+import java.net.CookieManager
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -83,6 +85,7 @@ class LoginActivity : AppCompatActivity() {
                     )
                     login(userLoginResponse)
                     Log.d("Nicolas Login", "Login successful: $responseBody")
+                    setUpToken()
                     startActivity(intent)
                 } else {
                     Log.e("Nicolas Login", "Login failed: ${response.code()} ${response.message()}")
@@ -91,6 +94,19 @@ class LoginActivity : AppCompatActivity() {
                 Log.e("Nicolas Login", "Login error: ${e.message}")
             }
             Log.i("Nicolas Login","Out login...")
+        }
+    }
+
+    private fun setUpToken() {
+        val cookieManager = CookieManager()
+        CookieHandler.setDefault(cookieManager)
+
+        val cookies = cookieManager.cookieStore.cookies
+        for(cookie in cookies){
+            if(cookie.name == "token"){
+                val token = cookie.value
+                RetrofitFactory.addTokenToClient(token)
+            }
         }
     }
 }
