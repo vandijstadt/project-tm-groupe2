@@ -3,6 +3,10 @@ package be.school.quizzapplication.fragments
 import android.content.Intent
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
+import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -11,15 +15,19 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import be.school.quizzapplication.activity.PlayQuizzActivity
 
 import be.school.quizzapplication.fragments.placeholder.PlaceholderContent.PlaceholderItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.FragmentQuizzListItemBinding
-import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 
 class QuizzRecyclerViewAdapter(
-    private val values: List<GetAllQuizzesResponse>
+    private val values: List<GetAllQuizzesResponse>,
+    param: (Any) -> Unit
 ) : RecyclerView.Adapter<QuizzRecyclerViewAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             FragmentQuizzListItemBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -30,6 +38,7 @@ class QuizzRecyclerViewAdapter(
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.quizzId.text = item.id.toString()
@@ -44,6 +53,34 @@ class QuizzRecyclerViewAdapter(
             intent.putExtra("QUIZZ_ID", item.id)
             context.startActivity(intent)
         }
+
+        holder.itemView.setOnLongClickListener {
+            onLongClickListener(holder, item)
+            true
+        }
+
+    }
+
+    private fun onLongClickListener(holder: ViewHolder, quiz: GetAllQuizzesResponse) {
+        Log.i("Nicolas long press", "ID : " + quiz.id.toString())
+        val handler = Handler(Looper.getMainLooper())
+        val fragmentManager =
+            (holder.itemView.context as? AppCompatActivity)?.supportFragmentManager // Get FragmentManager
+        val detailFragment = GestionFragment.newInstance(quiz) // Create fragment instance
+        fragmentManager?.beginTransaction()
+            ?.replace(
+                R.id.fragmentContainerView_quizzManagerFragment,
+                detailFragment
+            ) // Replace fragment
+            ?.addToBackStack(null) // Add to back stack
+            ?.commit() // Commit transaction
+
+        val dismissRunnable = Runnable {
+            fragmentManager?.beginTransaction()
+                ?.remove(detailFragment)
+                ?.commit()
+        }
+        handler.postDelayed(dismissRunnable, 3000)
     }
 
     override fun getItemCount(): Int = values.size

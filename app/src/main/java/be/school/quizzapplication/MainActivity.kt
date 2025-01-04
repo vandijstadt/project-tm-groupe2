@@ -2,12 +2,8 @@ package be.school.quizzapplication
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import be.school.quizzapplication.activity.LoginActivity
-import be.school.quizzapplication.activity.MyQuizzRecyclerViewAdapter
 import be.school.quizzapplication.activity.QuizzManagerActivity
 import be.school.quizzapplication.databinding.ActivityMainBinding
 
@@ -34,7 +30,19 @@ class MainActivity : AppCompatActivity() {
         binding.buttonLogout.setOnClickListener {
             logout();
         }
+//        test()
     }
+
+//    private fun test() {
+//        var idAMettre = 1
+//        binding.buttonTest.setOnClickListener {
+//            binding.fragmentContainerViewTest.visibility =
+//                if (binding.fragmentContainerViewTest.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
+//            if (binding.fragmentContainerViewTest.visibility == View.VISIBLE){
+//                binding.fragmentContainerViewTest.getFragment<QuizzManagerFragment>().setId(idAMettre)
+//            }
+//        }
+//    }
 
 
     private fun logout() {

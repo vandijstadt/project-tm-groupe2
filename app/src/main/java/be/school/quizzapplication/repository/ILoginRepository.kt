@@ -1,7 +1,7 @@
 package com.school.tmproject.repository
 
 import com.school.tmproject.DTO.login.UserLoginCommand
-import com.school.tmproject.DTO.login.UserLoginResponse
+import be.school.quizzapplication.DTO.login.UserLoginResponse
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
