@@ -1,12 +1,20 @@
 package be.school.quizzapplication.fragments
 
+import android.content.Intent
+import android.util.Log
+import androidx.recyclerview.widget.RecyclerView
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import be.school.quizzapplication.activity.PlayQuizzActivity
+
+import be.school.quizzapplication.fragments.placeholder.PlaceholderContent.PlaceholderItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
@@ -38,6 +46,13 @@ class QuizzRecyclerViewAdapter(
         holder.quizzTheme.text = item.theme.title.replaceFirstChar {
             it.uppercase()
         }.first().toString()
+        holder.itemView.setOnClickListener {
+            Log.i("Mickaël","Item ${item.id} clicked")
+            val context = holder.itemView.context
+            val intent = Intent(context, PlayQuizzActivity::class.java)
+            intent.putExtra("QUIZZ_ID", item.id)
+            context.startActivity(intent)
+        }
 
         holder.itemView.setOnLongClickListener {
             onLongClickListener(holder, item)
