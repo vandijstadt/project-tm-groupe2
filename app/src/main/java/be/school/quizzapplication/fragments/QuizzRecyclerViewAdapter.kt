@@ -1,9 +1,13 @@
 package be.school.quizzapplication.fragments
 
+import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import be.school.quizzapplication.activity.PlayQuizzActivity
 
 import be.school.quizzapplication.fragments.placeholder.PlaceholderContent.PlaceholderItem
 import be.school.quizzapplication.databinding.FragmentQuizzListItemBinding
@@ -32,6 +36,12 @@ class QuizzRecyclerViewAdapter(
         holder.quizzTheme.text = item.theme.title.replaceFirstChar {
             it.uppercase()
         }.first().toString()
+        holder.item.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, PlayQuizzActivity::class.java)
+            intent.putExtra("QUIZZ_ID", item.id)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int = values.size
@@ -41,6 +51,7 @@ class QuizzRecyclerViewAdapter(
         val quizzId: TextView = binding.tvQuizzItemFragmentId
         val quizzTitle: TextView = binding.tvQuizzItemFragmentTitle
         val quizzTheme: TextView = binding.tvQuizzItemFragmentTheme
+        val item: ConstraintLayout = binding.linearLayoutQuizzListFragmentItem
     }
 
 }
