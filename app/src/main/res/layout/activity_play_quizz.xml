@@ -28,15 +28,22 @@
         app:layout_constraintTop_toBottomOf="@id/tv_playQuizzActivity_question">
 
         <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">  <!-- Centre horizontalement les éléments du TableRow -->
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
 
             <Button
                 android:id="@+id/btn_playQuizzActivity_answer1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Button 1" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
 
             <Button
                 android:id="@+id/btn_playQuizzActivity_answer2"
@@ -48,13 +55,19 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal">  <!-- Centre horizontalement les éléments du TableRow -->
+            android:gravity="center_horizontal">
 
             <Button
                 android:id="@+id/btn_playQuizzActivity_answer3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Button 3" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
             <Button
                 android:id="@+id/btn_playQuizzActivity_answer4"
