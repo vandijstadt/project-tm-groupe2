@@ -30,11 +30,12 @@ class ModifyActivity : AppCompatActivity() {
         val intent = Intent(this, QuizzManagerActivity::class.java)
         lifecycleScope.launch {
             try {
-                Log.i("Nicolas quiz", "Id : $quizId")
                 val response: GetAllQuizzesResponse = apiService.getById(quizId)
                 Log.i("Nicolas quiz", response.toString())
                 binding.editTextId.text.append(response.id.toString())
                 binding.editTextTitle.text.append(response.title)
+                binding.editTextDescription.text.append(response.description)
+                binding.editTextTheme.text.append(response.theme.title)
             } catch (e: Exception) {
                 Log.e("Nicolas quiz", "quiz error: ${e.message}")
             }
