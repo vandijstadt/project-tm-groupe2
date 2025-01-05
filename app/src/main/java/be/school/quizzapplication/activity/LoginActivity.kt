@@ -51,6 +51,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         val user = checkLogin()
+
+
         binding.editTextLogin.text.append(user.username)
         binding.editTextPassword.text.append("")
     }
@@ -106,11 +108,21 @@ class LoginActivity : AppCompatActivity() {
             val token = parseTokenFromCookie(cookieString)
             if(token != null){
                 Log.i("Mickaël",token)
+                saveToken(token)
                 RetrofitFactory.addTokenToClient(token)
                 break
             }
         }
     }
+
+    private fun saveToken(token: String) {
+        val jwtSharedPref = getSharedPreferences("JWT", MODE_PRIVATE)
+        val editor = jwtSharedPref.edit()
+        editor.putString("token", token)
+        editor.apply()
+        Log.i("Mickaël", "token saved")
+    }
+
     private fun parseTokenFromCookie(cookieString: String): String?{
         val parts = cookieString.split(";").firstOrNull()
         val keyValue = parts?.split("=")
