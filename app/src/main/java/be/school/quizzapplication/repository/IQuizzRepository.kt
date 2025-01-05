@@ -1,11 +1,10 @@
 package be.school.quizzapplication.repository
 
-import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
-import be.school.quizzapplication.DTO.quizz.UpdateQuizzesResponse
+import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.dto.quizz.UpdateQuizzesResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.PATCH
 import retrofit2.http.PUT
 import retrofit2.http.Path
 

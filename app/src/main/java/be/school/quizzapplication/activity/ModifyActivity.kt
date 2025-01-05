@@ -7,11 +7,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
-import be.school.quizzapplication.DTO.quizz.Themes
-import be.school.quizzapplication.DTO.quizz.UpdateQuizzesResponse
-import be.school.quizzapplication.DTO.quizz.Users
-import be.school.quizzapplication.DTO.theme.ThemeResponse
+import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.dto.quizz.Themes
+import be.school.quizzapplication.dto.quizz.UpdateQuizzesResponse
+import be.school.quizzapplication.dto.quizz.Users
+import be.school.quizzapplication.dto.theme.ThemeResponse
 import be.school.quizzapplication.databinding.ActivityModifyBinding
 import be.school.quizzapplication.repository.IQuizzRepository
 import be.school.quizzapplication.repository.IThemeRepository
@@ -45,17 +45,8 @@ class ModifyActivity : AppCompatActivity() {
 //            binding.editTextDescription.text.append(response.description)
 //            binding.multiAutoCompleteTextViewTheme.text.append(response.theme.title)
             val id: Int = binding.editTextId.text.toString().toIntOrNull()!!
-            var selectedTheme=response.theme
 //            binding.multiAutoCompleteTextViewTheme.text.toString()
-            binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                    selectedTheme = themes[position]
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    selectedTheme = themes[0]
-                }
-            }
+            var selectedTheme = themes[binding.spinner.selectedItemPosition]
 
             val theme : Themes=Themes(selectedTheme.id);
 
@@ -66,6 +57,7 @@ class ModifyActivity : AppCompatActivity() {
                 theme,
                 user
             )
+            Log.i("Nicolas", quiz.toString())
             performUpdate(quiz)
         }
     }
@@ -74,12 +66,18 @@ class ModifyActivity : AppCompatActivity() {
     private val apiService = RetrofitFactory.instance.create(IQuizzRepository::class.java)
     private fun performUpdate(quiz: UpdateQuizzesResponse) {
         lifecycleScope.launch {
-            try {
-                val response = apiService.update(quiz)
-            } catch (e: Exception) {
-                Log.e("Nicolas quiz", "quiz error: ${e.message}")
+            lifecycleScope.launch {
+                try {
+                    val response = apiService.update(quiz)
+                    if (response.isSuccessful) {
+                        Log.i("Nicolas quiz", "Quiz updated successfully!")
+                    } else {
+                        Log.e("Nicolas quiz", "Update failed with status code: ${response.code()} and error: ${response.message()}")
+                    }
+                } catch (e: Exception) {
+                    Log.e("Nicolas quiz", "quiz error: ${e.message}")
+                }
             }
-            Log.i("Nicolas quiz", "Out quiz...")
         }
     }
     private fun performGetQuiz(quizId: Int) {

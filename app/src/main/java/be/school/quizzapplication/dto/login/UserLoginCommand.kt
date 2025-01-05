@@ -1,4 +1,4 @@
-package be.school.quizzapplication.DTO.login
+package be.school.quizzapplication.dto.login
 
 data class UserLoginCommand(
     val username: String,

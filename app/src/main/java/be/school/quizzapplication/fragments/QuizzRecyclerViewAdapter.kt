@@ -12,7 +12,7 @@ import android.widget.TextView
 import be.school.quizzapplication.activity.PlayQuizzActivity
 
 import androidx.appcompat.app.AppCompatActivity
-import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.FragmentQuizzListItemBinding
 
