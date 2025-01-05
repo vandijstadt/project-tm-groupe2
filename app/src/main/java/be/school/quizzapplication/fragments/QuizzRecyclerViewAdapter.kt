@@ -12,7 +12,7 @@ import android.widget.TextView
 import be.school.quizzapplication.activity.PlayQuizzActivity
 
 import androidx.appcompat.app.AppCompatActivity
-import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.FragmentQuizzListItemBinding
 
@@ -60,8 +60,9 @@ class QuizzRecyclerViewAdapter(
         Log.i("Nicolas long press", "ID : " + quiz.id.toString())
         val handler = Handler(Looper.getMainLooper())
         val fragmentManager =
-            (holder.itemView.context as? AppCompatActivity)?.supportFragmentManager // Get FragmentManager
+            (holder.itemView.context as? AppCompatActivity)?.supportFragmentManager
         val detailFragment = GestionFragment.newInstance(quiz) // Create fragment instance
+        detailFragment.id=quiz.id
         fragmentManager?.beginTransaction()
             ?.replace(
                 R.id.fragmentContainerView_quizzManagerFragment,

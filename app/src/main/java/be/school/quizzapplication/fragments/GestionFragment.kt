@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.FragmentGestionBinding
-import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.repository.IQuizzRepository
 import com.school.tmproject.placeholder.RetrofitFactory
 import kotlinx.coroutines.launch
@@ -27,7 +27,10 @@ private const val ARG_PARAM2 = "param2"
 class GestionFragment : Fragment() {
 
     private var binding: FragmentGestionBinding? = null
-
+    private var id: Int = 1
+    fun setId(id: Int) {
+        this.id = id
+    }
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -89,7 +92,8 @@ class GestionFragment : Fragment() {
                 .setTitle("Confirm Deletion")
                 .setMessage("Are you sure you want to delete this quiz?")
                 .setPositiveButton("Delete") { dialog, which ->
-                    performDelete(1) // TODO : a changer
+                    Log.i("Nicolas", "ID : $id")
+                    performDelete(id) // TODO : a changer
                 }
                 .setNegativeButton("Cancel") { dialog, which ->
                 }
@@ -103,21 +107,21 @@ class GestionFragment : Fragment() {
     private fun performDelete(quizzId: Int) {
         lifecycleScope.launch {
             try {
+                Log.i("Nicolas", "ID : $quizzId")
                 val response = apiService.delete(quizzId)
                 if (response.isSuccessful && response.code() == 204) {
                     Log.d("Nicolas delete", "Delete successful")
-                    // TODO : messages
-                    Toast.makeText(context, "Successful removal", Toast.LENGTH_LONG)
+                    // TODO : supprimer en meme temps
+                    Toast.makeText(context, "Successful removal", Toast.LENGTH_LONG).show()
                 } else {
-                    // TODO : messages alerte
-                    Toast.makeText(context, "Failed removal", Toast.LENGTH_LONG)
-//                    Log.e("Nicolas Login", "Login failed: ${response.code()} ${response.message()}")
+                    Toast.makeText(context, "Failed removal", Toast.LENGTH_LONG).show()
+                    Log.e("Nicolas Login", "Login failed: ${response.code()} ${response.message()}")
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Failed removal", Toast.LENGTH_LONG)
+                Toast.makeText(context, "Failed removal", Toast.LENGTH_LONG).show()
                 Log.e("Nicolas delete", "Login error: ${e.message}")
             }
-            Log.i("Nicolas delete", "Out login...")
+            Log.i("Nicolas delete", "Out deleting...")
         }
     }
 }
