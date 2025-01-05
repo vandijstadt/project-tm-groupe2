@@ -23,11 +23,7 @@ class QuizzListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_quizz_list, container, false)
 
-        quizzRecyclerViewAdapter = QuizzRecyclerViewAdapter(quizzes) { quiz ->
-            if (quiz is GetAllQuizzesResponse) {
-                showQuizDetailsFragment(quiz)
-            }
-        }
+        quizzRecyclerViewAdapter = QuizzRecyclerViewAdapter(quizzes) {       }
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -36,16 +32,7 @@ class QuizzListFragment : Fragment() {
                 adapter = quizzRecyclerViewAdapter
             }
         }
-
-
         return view
-    }
-    private fun showQuizDetailsFragment(quiz: GetAllQuizzesResponse) {
-        val detailFragment = GestionFragment.newInstance(quiz)
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView_quizzManagerFragment, detailFragment)
-            .addToBackStack(null)
-            .commit()
     }
     fun initUIWithQuizzes(quizzList: List<GetAllQuizzesResponse>){
         quizzList.forEach { quizzes.add(it) }
