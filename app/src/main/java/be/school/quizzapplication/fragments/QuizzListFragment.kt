@@ -14,9 +14,11 @@ import be.school.quizzapplication.R
  * A fragment representing a list of Items.
  */
 class QuizzListFragment : Fragment() {
-    private val quizzes: ArrayList<GetAllQuizzesResponse> = arrayListOf()
-    private lateinit var quizzRecyclerViewAdapter: QuizzRecyclerViewAdapter
 
+    private lateinit var deleteCallback: OnDeleteCallback
+
+    private var quizzes: ArrayList<GetAllQuizzesResponse> = arrayListOf()
+    private lateinit var quizzRecyclerViewAdapter: QuizzRecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,14 +36,29 @@ class QuizzListFragment : Fragment() {
         }
         return view
     }
+
     fun initUIWithQuizzes(quizzList: List<GetAllQuizzesResponse>){
         quizzList.forEach { quizzes.add(it) }
         quizzRecyclerViewAdapter.notifyItemInserted(0)
     }
 
+    fun deleteQuizzFromView(idQuizz: Int) {
+        val indexToRemove = quizzes.indexOfFirst { it.id == idQuizz }
+
+        if (indexToRemove != -1) {
+            quizzes.removeAt(indexToRemove)
+            quizzRecyclerViewAdapter.notifyItemRemoved(indexToRemove)
+        }
+    }
+
     companion object {
-        fun newInstance(columnCount: Int) =
+        fun newInstance(callback: OnDeleteCallback) =
             QuizzListFragment().apply {
+                deleteCallback = callback
+                quizzRecyclerViewAdapter=QuizzRecyclerViewAdapter(quizzes, deleteCallback) { quiz ->
+                    if(quiz is GetAllQuizzesResponse)
+                        showQuizDetailsFragment(quiz)
+                }
             }
     }
 }

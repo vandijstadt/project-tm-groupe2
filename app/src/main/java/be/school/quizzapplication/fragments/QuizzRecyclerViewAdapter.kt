@@ -18,6 +18,7 @@ import be.school.quizzapplication.databinding.FragmentQuizzListItemBinding
 
 class QuizzRecyclerViewAdapter(
     private val values: List<GetAllQuizzesResponse>,
+    private val deleteCallback: OnDeleteCallback,
     param: (Any) -> Unit
 ) : RecyclerView.Adapter<QuizzRecyclerViewAdapter.ViewHolder>() {
 
@@ -60,9 +61,8 @@ class QuizzRecyclerViewAdapter(
         Log.i("Nicolas long press", "ID : " + quiz.id.toString())
         val handler = Handler(Looper.getMainLooper())
         val fragmentManager =
-            (holder.itemView.context as? AppCompatActivity)?.supportFragmentManager // Get FragmentManager
-
-        val detailFragment = GestionFragment.newInstance(quiz) // Create fragment instance
+            (holder.itemView.context as? AppCompatActivity)?.supportFragmentManager
+        val detailFragment = GestionFragment.newInstance(quiz,deleteCallback)
         fragmentManager?.beginTransaction()
             ?.replace(
                 R.id.fragmentContainerView_quizzManagerFragment,

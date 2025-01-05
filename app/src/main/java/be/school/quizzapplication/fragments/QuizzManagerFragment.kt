@@ -25,11 +25,26 @@ class QuizzManagerFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val quizzListFragment = childFragmentManager
-            .findFragmentById(R.id.fragmentContainerView_quizzManagerFragment) as QuizzListFragment
+        val quizzListFragment = QuizzListFragment.newInstance(object: OnDeleteCallback{
+            override fun onDelete(idQuizz: Int) {
+                viewModel.startDeleteQuizz(idQuizz)
+            }
+
+        })
+
+        /*val quizzListFragment = childFragmentManager
+            .findFragmentById(R.id.fragmentContainerView_quizzManagerFragment) as QuizzListFragment*/
+
+        childFragmentManager.beginTransaction()
+            .add(R.id.fragmentContainerView_quizzManagerFragment,quizzListFragment)
+            .commit()
 
         viewModel.mutableQuizzLiveData.observe(viewLifecycleOwner) {
             quizzListFragment.initUIWithQuizzes(it.toList())
+
+            viewModel.mutableQuizzToDeleteLiveData.observe(viewLifecycleOwner){
+                quizzListFragment.deleteQuizzFromView(it.toInt())
+            }
         }
 
         viewModel.startGetAllQuizzes()

@@ -13,11 +13,19 @@ class QuizzManagerViewModel : ViewModel() {
         .create(IQuizzRepository::class.java)
 
     val mutableQuizzLiveData: MutableLiveData<List<GetAllQuizzesResponse>> = MutableLiveData()
+    val mutableQuizzToDeleteLiveData: MutableLiveData<Int> = MutableLiveData()
 
     fun startGetAllQuizzes(){
         viewModelScope.launch {
             val quizzes = quizzRepository.getAll()
             mutableQuizzLiveData.postValue(quizzes)
+        }
+    }
+
+    fun startDeleteQuizz(idQuizz: Int) {
+        viewModelScope.launch {
+            quizzRepository.delete(idQuizz)
+            mutableQuizzToDeleteLiveData.postValue(idQuizz)
         }
     }
 }
