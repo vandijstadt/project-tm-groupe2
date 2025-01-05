@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
 import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.DTO.quizz.Themes
 import be.school.quizzapplication.DTO.quizz.UpdateQuizzesResponse
 import be.school.quizzapplication.DTO.quizz.Users
+import be.school.quizzapplication.DTO.theme.ThemeResponse
 import be.school.quizzapplication.databinding.ActivityModifyBinding
 import be.school.quizzapplication.repository.IQuizzRepository
 import be.school.quizzapplication.repository.IThemeRepository
@@ -16,6 +18,7 @@ import com.school.tmproject.placeholder.RetrofitFactory
 import kotlinx.coroutines.launch
 
 class ModifyActivity : AppCompatActivity() {
+    private lateinit var themes: List<ThemeResponse>
     private lateinit var binding: ActivityModifyBinding
     private var user: Users = Users(0)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +44,7 @@ class ModifyActivity : AppCompatActivity() {
 //            binding.multiAutoCompleteTextViewTheme.text.append(response.theme.title)
             val id: Int = binding.editTextId.text.toString().toIntOrNull()!!
 
-            binding.multiAutoCompleteTextViewTheme.text.toString()
+//            binding.multiAutoCompleteTextViewTheme.text.toString()
             val theme: Themes = Themes(1)
             val quiz: UpdateQuizzesResponse = UpdateQuizzesResponse(
                 id,
@@ -74,7 +77,7 @@ class ModifyActivity : AppCompatActivity() {
                 binding.editTextId.text.append(response.id.toString())
                 binding.editTextTitle.text.append(response.title)
                 binding.editTextDescription.text.append(response.description)
-                binding.multiAutoCompleteTextViewTheme.text.append(response.theme.title)
+                binding.spinner.get(themes.indexOfFirst { it.title == response.theme.title })
                 user = Users(response.user.id)
             } catch (e: Exception) {
                 Log.e("Nicolas quiz", "quiz error: ${e.message}")
@@ -87,10 +90,10 @@ class ModifyActivity : AppCompatActivity() {
     private fun performGetAllTheme() {
         lifecycleScope.launch {
             try {
-                val themes = apiServiceTheme.getAll()
+                themes = apiServiceTheme.getAll()
 
                 val adapter = ArrayAdapter(
-                    this,
+                    this@ModifyActivity,
                     android.R.layout.simple_spinner_item,  // Utiliser le spinner_item.xml si personnalisé
                     themes.map { it.title }  // Affiche uniquement le titre dans la liste
                 )
