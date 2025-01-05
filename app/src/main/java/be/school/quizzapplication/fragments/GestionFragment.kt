@@ -6,31 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.FragmentGestionBinding
-import be.school.quizzapplication.repository.IQuizzRepository
-import com.school.tmproject.placeholder.RetrofitFactory
-import kotlinx.coroutines.launch
-import java.net.CookieHandler
-import java.net.CookieManager
+
+interface OnDeleteCallback{
+    fun onDelete(idQuizz:Int)
+}
 
 class GestionFragment : Fragment() {
 
     private var binding: FragmentGestionBinding? = null
-    private var id: Int = 1
-    fun setId(id: Int) {
-        this.id = id
-    }
-
-    private var onQuizDeletedListener: OnQuizDeletedListener? = null
-
-    fun setOnQuizDeletedListener(listener: OnQuizDeletedListener) {
-        this.onQuizDeletedListener = listener
-    }
+    private lateinit var quizz: GetAllQuizzesResponse
+    private lateinit var deleteCallback: OnDeleteCallback
 
 
     override fun onCreateView(
@@ -43,10 +32,10 @@ class GestionFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(quiz: GetAllQuizzesResponse) =
+        fun newInstance(quiz: GetAllQuizzesResponse, callback: OnDeleteCallback) =
             GestionFragment().apply {
-                arguments = Bundle().apply {
-                }
+                quizz = quiz
+                deleteCallback = callback
             }
     }
 
@@ -68,7 +57,8 @@ class GestionFragment : Fragment() {
                 .setMessage("Are you sure you want to delete this quiz?")
                 .setPositiveButton("Delete") { dialog, which ->
                     Log.i("Nicolas", "ID : $id")
-                    performDelete(id) // TODO : a changer
+                    //performDelete(id) // TODO : a changer
+                    deleteCallback.onDelete(quizz.id)
                 }
                 .setNegativeButton("Cancel") { dialog, which ->
                 }
@@ -78,7 +68,7 @@ class GestionFragment : Fragment() {
             Log.i("Nicolas update", "Debut de la modification")
         }
     }
-    private val apiService = RetrofitFactory.instance.create(IQuizzRepository::class.java)
+    /*private val apiService = RetrofitFactory.instance.create(IQuizzRepository::class.java)
     private fun performDelete(quizId: Int) {
         lifecycleScope.launch {
             try {
@@ -96,11 +86,7 @@ class GestionFragment : Fragment() {
                 Log.e("Nicolas delete", "Login error: ${e.message}")
             }
         }
-    }
+    }*/
 
 
-}
-
-interface OnQuizDeletedListener {
-    fun onQuizDeleted(quizId: Int)
 }

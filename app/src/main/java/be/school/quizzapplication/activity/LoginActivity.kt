@@ -6,8 +6,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import be.school.quizzapplication.databinding.ActivityLoginBinding
-import be.school.quizzapplication.DTO.login.UserLoginCommand
-import be.school.quizzapplication.DTO.login.UserLoginResponse
+import be.school.quizzapplication.dto.login.UserLoginCommand
+import be.school.quizzapplication.dto.login.UserLoginResponse
 import com.school.tmproject.placeholder.RetrofitFactory
 import be.school.quizzapplication.repository.ILoginRepository
 import kotlinx.coroutines.launch

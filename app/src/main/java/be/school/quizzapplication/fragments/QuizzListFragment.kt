@@ -7,29 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
 
 /**
  * A fragment representing a list of Items.
  */
-class QuizzListFragment : Fragment(), OnQuizDeletedListener  {
+class QuizzListFragment : Fragment() {
 
-    interface OnQuizDeletedListener {
-        fun onQuizDeleted(quizId: Int)
-    }
+    private lateinit var deleteCallback: OnDeleteCallback
 
-    private val quizzes: ArrayList<GetAllQuizzesResponse> = arrayListOf()
-    private var quizzRecyclerViewAdapter: QuizzRecyclerViewAdapter=QuizzRecyclerViewAdapter(quizzes) { quiz ->
-        if(quiz is GetAllQuizzesResponse)
-            showQuizDetailsFragment(quiz)
-    }
-
-    private var onQuizDeletedListener: OnQuizDeletedListener? = null
-
-    fun setOnQuizDeletedListener(listener: OnQuizDeletedListener) {
-        this.onQuizDeletedListener = listener
-    }
+    private var quizzes: ArrayList<GetAllQuizzesResponse> = arrayListOf()
+    private lateinit var quizzRecyclerViewAdapter: QuizzRecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,8 +37,7 @@ class QuizzListFragment : Fragment(), OnQuizDeletedListener  {
         return view
     }
     private fun showQuizDetailsFragment(quiz: GetAllQuizzesResponse) {
-        val detailFragment = GestionFragment.newInstance(quiz)
-        detailFragment.setOnQuizDeletedListener(this)
+        val detailFragment = GestionFragment.newInstance(quiz, deleteCallback)
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainerView_quizzManagerFragment, detailFragment)
             .addToBackStack(null)
@@ -61,16 +49,23 @@ class QuizzListFragment : Fragment(), OnQuizDeletedListener  {
         quizzRecyclerViewAdapter.notifyItemInserted(0)
     }
 
-    companion object {
-        fun newInstance(columnCount: Int) =
-            QuizzListFragment().apply {
-            }
-    }
-    override fun onQuizDeleted(quizId: Int) {
-        val position = quizzes.indexOfFirst { it.id == quizId }
-        if (position != -1) {
-            quizzes.removeAt(position)
-            quizzRecyclerViewAdapter.notifyItemRemoved(position)
+    fun deleteQuizzFromView(idQuizz: Int) {
+        val indexToRemove = quizzes.indexOfFirst { it.id == idQuizz }
+
+        if (indexToRemove != -1) {
+            quizzes.removeAt(indexToRemove)
+            quizzRecyclerViewAdapter.notifyItemRemoved(indexToRemove)
         }
+    }
+
+    companion object {
+        fun newInstance(callback: OnDeleteCallback) =
+            QuizzListFragment().apply {
+                deleteCallback = callback
+                quizzRecyclerViewAdapter=QuizzRecyclerViewAdapter(quizzes, deleteCallback) { quiz ->
+                    if(quiz is GetAllQuizzesResponse)
+                        showQuizDetailsFragment(quiz)
+                }
+            }
     }
 }

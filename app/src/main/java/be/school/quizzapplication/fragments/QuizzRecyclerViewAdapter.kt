@@ -12,12 +12,13 @@ import android.widget.TextView
 import be.school.quizzapplication.activity.PlayQuizzActivity
 
 import androidx.appcompat.app.AppCompatActivity
-import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.FragmentQuizzListItemBinding
 
 class QuizzRecyclerViewAdapter(
     private val values: List<GetAllQuizzesResponse>,
+    private val deleteCallback: OnDeleteCallback,
     param: (Any) -> Unit
 ) : RecyclerView.Adapter<QuizzRecyclerViewAdapter.ViewHolder>() {
 
@@ -61,8 +62,7 @@ class QuizzRecyclerViewAdapter(
         val handler = Handler(Looper.getMainLooper())
         val fragmentManager =
             (holder.itemView.context as? AppCompatActivity)?.supportFragmentManager
-        val detailFragment = GestionFragment.newInstance(quiz) // Create fragment instance
-        detailFragment.id=quiz.id
+        val detailFragment = GestionFragment.newInstance(quiz,deleteCallback)
         fragmentManager?.beginTransaction()
             ?.replace(
                 R.id.fragmentContainerView_quizzManagerFragment,
