@@ -1,6 +1,7 @@
 package be.school.quizzapplication.fragments
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
+import be.school.quizzapplication.activity.ModifyActivity
 import be.school.quizzapplication.databinding.FragmentGestionBinding
 
 interface OnDeleteCallback{
@@ -20,6 +22,7 @@ class GestionFragment : Fragment() {
     private var binding: FragmentGestionBinding? = null
     private lateinit var quizz: GetAllQuizzesResponse
     private lateinit var deleteCallback: OnDeleteCallback
+
 
 
     override fun onCreateView(
@@ -66,6 +69,9 @@ class GestionFragment : Fragment() {
         }
         binding?.buttonModify?.setOnClickListener {
             Log.i("Nicolas update", "Debut de la modification")
+            val intent = Intent(requireContext(), ModifyActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
         }
     }
     /*private val apiService = RetrofitFactory.instance.create(IQuizzRepository::class.java)

@@ -74,7 +74,7 @@ class QuizzRecyclerViewAdapter(
         val dismissRunnable = Runnable {
             fragmentManager?.beginTransaction()
                 ?.remove(detailFragment)
-                ?.commit()
+                ?.commitAllowingStateLoss()
         }
         handler.postDelayed(dismissRunnable, 3000)
     }

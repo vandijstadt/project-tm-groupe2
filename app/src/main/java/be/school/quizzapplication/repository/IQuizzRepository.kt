@@ -1,8 +1,11 @@
 package be.school.quizzapplication.repository
 
 import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.dto.quizz.UpdateQuizzesResponse
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface IQuizzRepository {
@@ -15,5 +18,6 @@ interface IQuizzRepository {
     @DELETE("quizzes/{id}")
     suspend fun delete(@Path("id") quizzId: Int): retrofit2.Response<Unit>
 
-
+    @PUT("quizzes")
+    suspend fun update(@Body quizz: UpdateQuizzesResponse): retrofit2.Response<Unit>
 }
