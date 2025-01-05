@@ -18,12 +18,6 @@ import kotlinx.coroutines.launch
 import java.net.CookieHandler
 import java.net.CookieManager
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-
 class GestionFragment : Fragment() {
 
     private var binding: FragmentGestionBinding? = null
@@ -31,17 +25,13 @@ class GestionFragment : Fragment() {
     fun setId(id: Int) {
         this.id = id
     }
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private var onQuizDeletedListener: OnQuizDeletedListener? = null
+
+    fun setOnQuizDeletedListener(listener: OnQuizDeletedListener) {
+        this.onQuizDeletedListener = listener
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,8 +46,6 @@ class GestionFragment : Fragment() {
         fun newInstance(quiz: GetAllQuizzesResponse) =
             GestionFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, quiz.id.toString())
-                    putString(ARG_PARAM2, quiz.title)
                 }
             }
     }
@@ -70,19 +58,6 @@ class GestionFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null // Release binding to prevent memory leaks
-    }
-
-    private fun setUpToken() {
-        val cookieManager = CookieManager()
-        CookieHandler.setDefault(cookieManager)
-
-        val cookies = cookieManager.cookieStore.cookies
-        for(cookie in cookies){
-            if(cookie.name == "token"){
-                val token = cookie.value
-                RetrofitFactory.addTokenToClient(token)
-            }
-        }
     }
 
     private fun setUpListener() {
@@ -104,15 +79,14 @@ class GestionFragment : Fragment() {
         }
     }
     private val apiService = RetrofitFactory.instance.create(IQuizzRepository::class.java)
-    private fun performDelete(quizzId: Int) {
+    private fun performDelete(quizId: Int) {
         lifecycleScope.launch {
             try {
-                Log.i("Nicolas", "ID : $quizzId")
-                val response = apiService.delete(quizzId)
+                val response = apiService.delete(quizId)
                 if (response.isSuccessful && response.code() == 204) {
                     Log.d("Nicolas delete", "Delete successful")
-                    // TODO : supprimer en meme temps
                     Toast.makeText(context, "Successful removal", Toast.LENGTH_LONG).show()
+                    onQuizDeletedListener?.onQuizDeleted(quizId)  // Notify the listener
                 } else {
                     Toast.makeText(context, "Failed removal", Toast.LENGTH_LONG).show()
                     Log.e("Nicolas Login", "Login failed: ${response.code()} ${response.message()}")
@@ -121,7 +95,12 @@ class GestionFragment : Fragment() {
                 Toast.makeText(context, "Failed removal", Toast.LENGTH_LONG).show()
                 Log.e("Nicolas delete", "Login error: ${e.message}")
             }
-            Log.i("Nicolas delete", "Out deleting...")
         }
     }
+
+
+}
+
+interface OnQuizDeletedListener {
+    fun onQuizDeleted(quizId: Int)
 }
