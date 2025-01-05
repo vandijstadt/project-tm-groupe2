@@ -2,6 +2,8 @@ package be.school.quizzapplication.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
@@ -21,16 +23,18 @@ class ModifyActivity : AppCompatActivity() {
     private lateinit var themes: List<ThemeResponse>
     private lateinit var binding: ActivityModifyBinding
     private var user: Users = Users(0)
+    private lateinit var response: GetAllQuizzesResponse
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityModifyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        performGetAllTheme()
+
         val quizId = intent.getIntExtra("id", -1)
         performGetQuiz(quizId)
 
-        performGetAllTheme()
 
         setUpListener()
 
@@ -43,9 +47,20 @@ class ModifyActivity : AppCompatActivity() {
 //            binding.editTextDescription.text.append(response.description)
 //            binding.multiAutoCompleteTextViewTheme.text.append(response.theme.title)
             val id: Int = binding.editTextId.text.toString().toIntOrNull()!!
-
+            var selectedTheme=response.theme
 //            binding.multiAutoCompleteTextViewTheme.text.toString()
-            val theme: Themes = Themes(1)
+            binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                    selectedTheme = themes[position]
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    selectedTheme = themes[0]
+                }
+            }
+
+            val theme : Themes=Themes(selectedTheme.id);
+
             val quiz: UpdateQuizzesResponse = UpdateQuizzesResponse(
                 id,
                 binding.editTextTitle.text.toString(),
@@ -53,6 +68,7 @@ class ModifyActivity : AppCompatActivity() {
                 theme,
                 user
             )
+
             performUpdate(quiz)
         }
     }
@@ -77,7 +93,7 @@ class ModifyActivity : AppCompatActivity() {
                 binding.editTextId.text.append(response.id.toString())
                 binding.editTextTitle.text.append(response.title)
                 binding.editTextDescription.text.append(response.description)
-                binding.spinner.get(themes.indexOfFirst { it.title == response.theme.title })
+                binding.spinner.setSelection(themes.indexOfFirst { it.title == response.theme.title })
                 user = Users(response.user.id)
             } catch (e: Exception) {
                 Log.e("Nicolas quiz", "quiz error: ${e.message}")
