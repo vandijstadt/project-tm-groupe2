@@ -1,6 +1,7 @@
 package be.school.quizzapplication.fragments
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,8 +11,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import be.school.quizzapplication.R
+import be.school.quizzapplication.activity.ModifyActivity
 import be.school.quizzapplication.databinding.FragmentGestionBinding
-import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
+import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.repository.IQuizzRepository
 import com.school.tmproject.placeholder.RetrofitFactory
 import kotlinx.coroutines.launch
@@ -27,6 +29,11 @@ private const val ARG_PARAM2 = "param2"
 class GestionFragment : Fragment() {
 
     private var binding: FragmentGestionBinding? = null
+
+    private var id: Int = 1
+    fun setId(id: Int) {
+        this.id = id
+    }
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -97,6 +104,9 @@ class GestionFragment : Fragment() {
         }
         binding?.buttonModify?.setOnClickListener {
             Log.i("Nicolas update", "Debut de la modification")
+            val intent = Intent(requireContext(), ModifyActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
         }
     }
     private val apiService = RetrofitFactory.instance.create(IQuizzRepository::class.java)

@@ -1,7 +1,7 @@
 package be.school.quizzapplication.repository
 
-import be.school.quizzapplication.dto.login.UserLoginCommand
-import be.school.quizzapplication.dto.login.UserLoginResponse
+import be.school.quizzapplication.DTO.login.UserLoginCommand
+import be.school.quizzapplication.DTO.login.UserLoginResponse
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
