@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
 import be.school.quizzapplication.DTO.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.DTO.quizz.Themes
@@ -30,9 +29,8 @@ class ModifyActivity : AppCompatActivity() {
         binding = ActivityModifyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        performGetAllTheme()
-
         val quizId = intent.getIntExtra("id", -1)
+        performGetAllTheme()
         performGetQuiz(quizId)
 
 
@@ -68,7 +66,6 @@ class ModifyActivity : AppCompatActivity() {
                 theme,
                 user
             )
-
             performUpdate(quiz)
         }
     }
@@ -88,7 +85,7 @@ class ModifyActivity : AppCompatActivity() {
     private fun performGetQuiz(quizId: Int) {
         lifecycleScope.launch {
             try {
-                val response: GetAllQuizzesResponse = apiService.getById(quizId)
+                response= apiService.getById(quizId)
                 Log.i("Nicolas quiz", response.toString())
                 binding.editTextId.text.append(response.id.toString())
                 binding.editTextTitle.text.append(response.title)
