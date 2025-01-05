@@ -70,7 +70,7 @@ class GestionFragment : Fragment() {
         binding?.buttonModify?.setOnClickListener {
             Log.i("Nicolas update", "Debut de la modification")
             val intent = Intent(requireContext(), ModifyActivity::class.java)
-            intent.putExtra("id", id)
+            intent.putExtra("id", quizz.id)
             startActivity(intent)
         }
     }

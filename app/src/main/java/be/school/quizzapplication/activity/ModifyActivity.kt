@@ -1,5 +1,6 @@
 package be.school.quizzapplication.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -59,6 +60,9 @@ class ModifyActivity : AppCompatActivity() {
             )
             Log.i("Nicolas", quiz.toString())
             performUpdate(quiz)
+            Intent(this,QuizzManagerActivity::class.java).apply {
+                startActivity(this)
+            }
         }
     }
 
