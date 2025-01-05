@@ -1,6 +1,6 @@
-package com.school.tmproject.repository
+package be.school.quizzapplication.repository
 
-import com.school.tmproject.DTO.login.UserLoginCommand
+import be.school.quizzapplication.dto.login.UserLoginCommand
 import be.school.quizzapplication.dto.login.UserLoginResponse
 import retrofit2.http.Body
 import retrofit2.http.Headers

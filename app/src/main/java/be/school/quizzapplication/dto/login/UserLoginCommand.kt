@@ -1,6 +1,6 @@
-package com.school.tmproject.DTO.login
+package be.school.quizzapplication.dto.login
 
 data class UserLoginCommand(
-    val Username: String,
-    val Password: String,
+    val username: String,
+    val password: String,
 )

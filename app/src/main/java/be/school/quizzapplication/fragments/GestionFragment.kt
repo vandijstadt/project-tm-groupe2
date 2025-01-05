@@ -9,13 +9,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.R
 import be.school.quizzapplication.databinding.FragmentGestionBinding
+import be.school.quizzapplication.dto.quizz.GetAllQuizzesResponse
 import be.school.quizzapplication.repository.IQuizzRepository
 import com.school.tmproject.placeholder.RetrofitFactory
 import kotlinx.coroutines.launch
-import okhttp3.Response
 import java.net.CookieHandler
 import java.net.CookieManager
 

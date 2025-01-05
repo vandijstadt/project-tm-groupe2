@@ -6,15 +6,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import be.school.quizzapplication.databinding.ActivityLoginBinding
-import com.school.tmproject.DTO.login.UserLoginCommand
+import be.school.quizzapplication.dto.login.UserLoginCommand
 import be.school.quizzapplication.dto.login.UserLoginResponse
 import com.school.tmproject.placeholder.RetrofitFactory
-import com.school.tmproject.repository.ILoginRepository
+import be.school.quizzapplication.repository.ILoginRepository
 import kotlinx.coroutines.launch
-import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
-import java.net.CookieHandler
-import java.net.CookieManager
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
